@@ -28,5 +28,9 @@ archive_cmd="tar -c $exclude_tar_dirs -f - $build_folder"
 # Take md5 from each object inside the program and then take a md5 of that output
 md5_output=$(eval $archive_cmd | $MD5_PROGRAM )
 
+# Remove suffix from md5
+suffix_removal="  -"
+suffix_removed_md5=${md5_output/%$suffix_removal}
+
 # Output result as JSON back to terraform
-echo "{ \"md5\": \"$md5_output\" }"
+echo "{ \"md5\": \"$suffix_removed_md5\" }"
